@@ -125,7 +125,7 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-  	//RetriveData();
+  	RetriveData();
     Display_init();
 	MainScreen(1 ,1, 1);
 	ScreenPos = MAIN_SCREEN;
@@ -138,8 +138,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, Set_RO1);
-	HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, Set_RO2);
+	//HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, Set_RO1);
+	//HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, Set_RO2);
 
 	if(updatedisplay)
 	{
@@ -285,7 +285,7 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  //HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
@@ -492,7 +492,7 @@ void DN_Button_Update()
 	case NONE_SCREEN:
 		Set_RO2 = SET;
 		Set_RO1 = RESET;
-		updatedisplay = SET;
+		Btn_Triggerd = DN_BTN;
 		break;
 	default:
 		break;
@@ -562,7 +562,7 @@ void Scrn_ctrl()
 			}
 			break;
 		case MESSAGE_SCREEN:
-			//SaveData();
+			SaveData();
 			Message1();
 			ScreenPos = MAIN_SCREEN;
 			updatedisplay = SET;
