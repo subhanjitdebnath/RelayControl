@@ -188,6 +188,7 @@ void Message1()
 	SSD1306_GotoXY (0,20);
 	SSD1306_Puts ("SAVING TIME..", &Font_11x18, 1);
 	SSD1306_UpdateScreen();
+	HAL_Delay(200);
 }
 
 

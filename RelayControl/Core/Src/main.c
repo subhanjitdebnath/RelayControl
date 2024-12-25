@@ -565,7 +565,7 @@ void Scrn_ctrl()
 			SaveData();
 			Message1();
 			ScreenPos = MAIN_SCREEN;
-			updatedisplay = SET;
+			Btn_Triggerd = DN_BTN;
 			break;
 		case NONE_SCREEN:
 			RelayStatus(Set_RO1,Set_RO2);
