@@ -70,10 +70,6 @@ void Error_Handler(void);
 #define UP_BT_Pin GPIO_PIN_13
 #define UP_BT_GPIO_Port GPIOC
 #define UP_BT_EXTI_IRQn EXTI4_15_IRQn
-#define RO1_Pin GPIO_PIN_0
-#define RO1_GPIO_Port GPIOC
-#define RO2_Pin GPIO_PIN_1
-#define RO2_GPIO_Port GPIOC
 
 /* USER CODE BEGIN Private defines */
 

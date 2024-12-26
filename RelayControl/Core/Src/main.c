@@ -150,16 +150,16 @@ int main(void)
 	{
 		Btn_Ctrl();
 	}
-	if(TimeState != NONE_TIME)
-	{
-
-		if(HAL_GPIO_ReadPin(UP_BT_GPIO_Port, UP_BT_Pin) == GPIO_PIN_RESET)
-			{
-				HAL_Delay(100);
-				Btn_Triggerd = UP_BTN;
-			}
-
-	}
+//	if(TimeState != NONE_TIME)
+//	{
+//
+//		if(HAL_GPIO_ReadPin(UP_BT_GPIO_Port, UP_BT_Pin) == GPIO_PIN_RESET)
+//			{
+//				HAL_Delay(100);
+//				Btn_Triggerd = UP_BTN;
+//			}
+//
+//	}
 
 
 	  HAL_Delay(100);
@@ -271,21 +271,11 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, RO1_Pin|RO2_Pin, GPIO_PIN_RESET);
-
   /*Configure GPIO pins : OK_BT_Pin DN_BT_Pin UP_BT_Pin */
   GPIO_InitStruct.Pin = OK_BT_Pin|DN_BT_Pin|UP_BT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : RO1_Pin RO2_Pin */
-  GPIO_InitStruct.Pin = RO1_Pin|RO2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  //HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);

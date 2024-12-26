@@ -4,7 +4,7 @@
 
 char Line[20];
 char Line2[20];
-char* FixeLable[] = {"    MENU ", " RELAY SETTING "," RELAY STATUS"," TIME SET"," UP   DN     OK","  Relay" ,"   <-- Back","Relay  OD  OFD"};
+char* FixeLable[] = {"    MENU ", " RELAY SETTING "," RELAY STATUS"," TIME SET"," DN   UP     OK","  Relay" ,"   <-- Back","Relay  OD  OFD"};
 char* ONOFFLable[] = {" OFF"," ON"};
 char* RelayLable[] = {" Relay 1"," Relay 2" ," RO1 "," RO2 "};
 char* TimeLable[] = {"On Time","Off Time","m"};
