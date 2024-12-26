@@ -34,7 +34,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 uint32_t Timecount1 = 0,Timecount2 = 0;
-	FlagStatus  Set_RO2 = SET,Set_RO1 = RESET;
+	FlagStatus  Set_RO2 = RESET,Set_RO1 = RESET;
 	FlagStatus updatedisplay = RESET;
 	FlagStatus RO1_enable = SET,RO2_enable = SET;
 	int8_t pos = 0;
@@ -45,6 +45,9 @@ uint32_t Timecount1 = 0,Timecount2 = 0;
 			TIME_SCREEN,
 			RO1_TIME_SCREEN,
 			RO2_TIME_SCREEN,
+			RELAY_SETTING_SCREEN,
+			RO1_SETTING_SCREEN,
+			RO2_SETTING_SCREEN,
 			MESSAGE_SCREEN,
 			NONE_SCREEN,
 		}Screen_POS;
@@ -314,9 +317,15 @@ void OK_Button_Update()
 	switch(ScreenPos)
 	{
 	case MAIN_SCREEN:
-		if(pos == 1)
+		if(pos == 0)
 		{
-			ScreenPos = NONE_SCREEN;
+			ScreenPos = RELAY_SETTING_SCREEN;
+
+		}
+		else if(pos == 1)
+		{
+			ScreenPos = RELAY_SCREEN;
+
 		}
 		else if(pos == 2)
 		{
@@ -326,6 +335,22 @@ void OK_Button_Update()
 		updatedisplay = SET;
 		break;
 	case RELAY_SCREEN:
+		ScreenPos = MAIN_SCREEN;
+		break;
+	case RELAY_SETTING_SCREEN:
+		ScreenPos = RO1_SETTING_SCREEN;
+		pos = 0;
+		updatedisplay = SET;
+		break;
+	case RO1_SETTING_SCREEN:
+		ScreenPos = RO2_SETTING_SCREEN;
+		pos = 0;
+		updatedisplay = SET;
+		break;
+	case RO2_SETTING_SCREEN:
+		ScreenPos = MAIN_SCREEN;
+		pos = 0;
+		updatedisplay = SET;
 		break;
 	case TIME_SCREEN:
 		if(pos == 1)
@@ -382,9 +407,6 @@ void OK_Button_Update()
 		updatedisplay = SET;
 		break;
 	case NONE_SCREEN:
-		Set_RO1 = SET;
-		Set_RO2 = RESET;
-		updatedisplay = SET;
 		break;
 	default:
 		break;
@@ -432,10 +454,19 @@ void UP_Button_Update()
 		}
 		updatedisplay = SET;
 		break;
-	case NONE_SCREEN:
-		Set_RO2 = SET;
-		Set_RO1 = SET;
+	case RELAY_SETTING_SCREEN:
+		break;
+	case RO1_SETTING_SCREEN:
+		RO1_enable = (RO1_enable == SET)?RESET:SET;
+		pos = 0;
 		updatedisplay = SET;
+		break;
+	case RO2_SETTING_SCREEN:
+		RO2_enable = (RO2_enable == SET)?RESET:SET;
+		pos = 0;
+		updatedisplay = SET;
+		break;
+	case NONE_SCREEN:
 		break;
 	default:
 		break;
@@ -483,10 +514,19 @@ void DN_Button_Update()
 		}
 		updatedisplay = SET;
 		break;
+	case RELAY_SETTING_SCREEN:
+			break;
+	case RO1_SETTING_SCREEN:
+		RO1_enable = (RO1_enable == SET)?RESET:SET;
+		pos = 0;
+		updatedisplay = SET;
+		break;
+	case RO2_SETTING_SCREEN:
+		RO2_enable = (RO2_enable == SET)?RESET:SET;
+		pos = 0;
+		updatedisplay = SET;
+		break;
 	case NONE_SCREEN:
-		Set_RO2 = SET;
-		Set_RO1 = RESET;
-		Btn_Triggerd = DN_BTN;
 		break;
 	default:
 		break;
@@ -556,6 +596,18 @@ void Scrn_ctrl()
 				Relay2TimeSetting(On_Time2,Off_Time2,1,1);
 			}
 			break;
+		case RELAY_SETTING_SCREEN:
+			RelaySetting(RO1_enable,RO2_enable,1,1);
+			break;
+
+		case RO1_SETTING_SCREEN:
+			RelaySetting(RO1_enable,RO2_enable,0,1);
+			break;
+
+		case RO2_SETTING_SCREEN:
+			RelaySetting(RO1_enable,RO2_enable,1,0);
+			break;
+
 		case MESSAGE_SCREEN:
 			SaveData();
 			Message1();
@@ -580,10 +632,37 @@ void UpdatedRelayStatus()
 	{
 		HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, Set_RO2);
 	}
+
 }
 
 void OnOffUpdated()
 {
+//	if(RO1_enable)
+//		{
+//			if(Set_RO1)
+//			{
+//				if(Timecount1 >=  (TIMEFACTOR * On_Time1) )
+//				{
+//					Timecount1 = 0;
+//					Set_RO1 = RESET;
+//					UpdatedRelayStatus();
+//				}
+//			}
+//			else
+//			{
+//				if(Timecount1 >=  (TIMEFACTOR * Off_Time1) )
+//				{
+//					Timecount1 = 0;
+//					Set_RO1 = SET;
+//					UpdatedRelayStatus();
+//				}
+//			}
+//			Timecount1++;
+//		}
+//	else
+//		{
+//			//HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, 0);
+//		}
 	if(RO2_enable)
 	{
 		if(Set_RO2)
@@ -593,6 +672,7 @@ void OnOffUpdated()
 				Timecount2 = 0;
 				Set_RO2 = RESET;
 				UpdatedRelayStatus();
+				updatedisplay = SET;
 			}
 		}
 		else
@@ -602,10 +682,15 @@ void OnOffUpdated()
 				Timecount2 = 0;
 				Set_RO2 = SET;
 				UpdatedRelayStatus();
+				updatedisplay = SET;
 			}
 		}
 		Timecount2++;
 	}
+	else
+		{
+			HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, 0);
+		}
 }
 /* USER CODE END 4 */
 

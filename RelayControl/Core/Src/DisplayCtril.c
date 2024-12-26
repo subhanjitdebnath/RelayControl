@@ -191,6 +191,43 @@ void Message1()
 	HAL_Delay(200);
 }
 
+void RelaySetting(FlagStatus R1,FlagStatus R2,SSD1306_COLOR_t sel1 , SSD1306_COLOR_t sel2)
+{
+	char S[20];
+	char OffDelay[20];
+
+	SSD1306_Clear();
+	SSD1306_GotoXY (0,0);
+	SSD1306_Puts (FixeLable[1], &Font_11x18, 1);
+
+	//RELAY - 1 UPDATE
+	if(R1)
+	{
+		UpdateLineText(Line,RelayLable[0],"Enable");
+	}
+	else
+	{
+		UpdateLineText(Line,RelayLable[0],"Disable");
+	}
+	SSD1306_GotoXY (0,25);
+	SSD1306_Puts (Line, &Font_7x10, sel1);
+
+	//RELAY - 2 UPDATE
+	if(R2)
+	{
+		UpdateLineText(Line,RelayLable[1],"Enable");
+	}
+	else
+	{
+		UpdateLineText(Line,RelayLable[1],"Disable");
+	}
+	SSD1306_GotoXY (0,40);
+	SSD1306_Puts (Line, &Font_7x10, sel2);
+
+	SSD1306_GotoXY (0,52);
+	SSD1306_Puts (FixeLable[4], &Font_7x10, 1);
+	SSD1306_UpdateScreen();
+}
 
 
 
