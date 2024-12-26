@@ -51,6 +51,8 @@ void DN_Button_Update();
 void OK_Button_Update();
 void Btn_Ctrl();
 void Scrn_ctrl();
+void OnOffUpdated();
+void UpdatedRelayStatus();
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -70,6 +72,8 @@ void Error_Handler(void);
 #define UP_BT_Pin GPIO_PIN_13
 #define UP_BT_GPIO_Port GPIOC
 #define UP_BT_EXTI_IRQn EXTI4_15_IRQn
+#define RO2_Pin GPIO_PIN_1
+#define RO2_GPIO_Port GPIOC
 
 /* USER CODE BEGIN Private defines */
 

@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "DisplayCtril.h"
 #include "FlashReadWrite.h"
+#define TIMEFACTOR    600
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -32,8 +33,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+uint32_t Timecount1 = 0,Timecount2 = 0;
 	FlagStatus  Set_RO2 = SET,Set_RO1 = RESET;
 	FlagStatus updatedisplay = RESET;
+	FlagStatus RO1_enable = SET,RO2_enable = SET;
 	int8_t pos = 0;
 	typedef enum
 		{
@@ -141,7 +144,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	//HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, Set_RO1);
-	//HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, Set_RO2);
+
 
 	if(updatedisplay)
 	{
@@ -152,6 +155,7 @@ int main(void)
 	{
 		Btn_Ctrl();
 	}
+	OnOffUpdated();
 	  HAL_Delay(100);
   }
   /* USER CODE END 3 */
@@ -261,11 +265,21 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, GPIO_PIN_RESET);
+
   /*Configure GPIO pins : OK_BT_Pin DN_BT_Pin UP_BT_Pin */
   GPIO_InitStruct.Pin = OK_BT_Pin|DN_BT_Pin|UP_BT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : RO2_Pin */
+  GPIO_InitStruct.Pin = RO2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(RO2_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
@@ -554,6 +568,44 @@ void Scrn_ctrl()
 		default:
 			break;
 		}
+}
+
+void UpdatedRelayStatus()
+{
+	if(RO1_enable)
+	{
+		//HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, Set_RO1);
+	}
+	if(RO2_enable)
+	{
+		HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, Set_RO2);
+	}
+}
+
+void OnOffUpdated()
+{
+	if(RO2_enable)
+	{
+		if(Set_RO2)
+		{
+			if(Timecount2 >=  (TIMEFACTOR * On_Time2) )
+			{
+				Timecount2 = 0;
+				Set_RO2 = RESET;
+				UpdatedRelayStatus();
+			}
+		}
+		else
+		{
+			if(Timecount2 >=  (TIMEFACTOR * Off_Time2) )
+			{
+				Timecount2 = 0;
+				Set_RO2 = SET;
+				UpdatedRelayStatus();
+			}
+		}
+		Timecount2++;
+	}
 }
 /* USER CODE END 4 */
 
