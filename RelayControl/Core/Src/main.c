@@ -67,6 +67,8 @@ Btn_Pressed Btn_Triggerd = NONE_BTN;
 
 uint16_t On_Time1 =30,Off_Time1 =30,On_Time2 =40,Off_Time2 =40;
 
+
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -150,18 +152,6 @@ int main(void)
 	{
 		Btn_Ctrl();
 	}
-//	if(TimeState != NONE_TIME)
-//	{
-//
-//		if(HAL_GPIO_ReadPin(UP_BT_GPIO_Port, UP_BT_Pin) == GPIO_PIN_RESET)
-//			{
-//				HAL_Delay(100);
-//				Btn_Triggerd = UP_BTN;
-//			}
-//
-//	}
-
-
 	  HAL_Delay(100);
   }
   /* USER CODE END 3 */
@@ -508,6 +498,7 @@ void Btn_Ctrl()
 		break;
 	}
 	Btn_Triggerd = NONE_BTN;
+
 }
 
 void Scrn_ctrl()
