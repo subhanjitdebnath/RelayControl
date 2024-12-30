@@ -63,17 +63,35 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define OK_BT_Pin GPIO_PIN_11
-#define OK_BT_GPIO_Port GPIOC
-#define OK_BT_EXTI_IRQn EXTI4_15_IRQn
-#define DN_BT_Pin GPIO_PIN_12
-#define DN_BT_GPIO_Port GPIOC
-#define DN_BT_EXTI_IRQn EXTI4_15_IRQn
-#define UP_BT_Pin GPIO_PIN_13
-#define UP_BT_GPIO_Port GPIOC
-#define UP_BT_EXTI_IRQn EXTI4_15_IRQn
-#define RO2_Pin GPIO_PIN_1
-#define RO2_GPIO_Port GPIOC
+#define PC11_IN_Pin GPIO_PIN_11
+#define PC11_IN_GPIO_Port GPIOC
+#define PC11_IN_EXTI_IRQn EXTI4_15_IRQn
+#define PC12_IN_Pin GPIO_PIN_12
+#define PC12_IN_GPIO_Port GPIOC
+#define PC12_IN_EXTI_IRQn EXTI4_15_IRQn
+#define PC13_IN_Pin GPIO_PIN_13
+#define PC13_IN_GPIO_Port GPIOC
+#define PC13_IN_EXTI_IRQn EXTI4_15_IRQn
+#define PC0_OUT_Pin GPIO_PIN_0
+#define PC0_OUT_GPIO_Port GPIOC
+#define PC1_OUT_Pin GPIO_PIN_1
+#define PC1_OUT_GPIO_Port GPIOC
+#define PA1_OUT_Pin GPIO_PIN_1
+#define PA1_OUT_GPIO_Port GPIOA
+#define PA4_OUT_Pin GPIO_PIN_4
+#define PA4_OUT_GPIO_Port GPIOA
+#define PB2_OUT_Pin GPIO_PIN_2
+#define PB2_OUT_GPIO_Port GPIOB
+#define PB10_OUT_Pin GPIO_PIN_10
+#define PB10_OUT_GPIO_Port GPIOB
+#define PB11_OUT_Pin GPIO_PIN_11
+#define PB11_OUT_GPIO_Port GPIOB
+#define PB12_OUT_Pin GPIO_PIN_12
+#define PB12_OUT_GPIO_Port GPIOB
+#define PA12_IN_Pin GPIO_PIN_12
+#define PA12_IN_GPIO_Port GPIOA
+#define PA15_OUT_Pin GPIO_PIN_15
+#define PA15_OUT_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 

@@ -21,6 +21,6 @@ void Relay1TimeSetting(uint16_t On_Delay,uint16_t Off_Delay,SSD1306_COLOR_t sel1
 void Relay2TimeSetting(uint16_t On_Delay,uint16_t Off_Delay,SSD1306_COLOR_t sel1 , SSD1306_COLOR_t sel2);
 
 void RelaySetting(FlagStatus R1,FlagStatus R2,SSD1306_COLOR_t sel1 , SSD1306_COLOR_t sel2);
-
+void Message();
 void Message1();
 #endif /* INC_DISPLAYCTRIL_H_ */

@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "DisplayCtril.h"
 #include "FlashReadWrite.h"
+#include "IOTesting.h"
 #define TIMEFACTOR    600
 /* USER CODE END Includes */
 
@@ -135,8 +136,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   	RetriveData();
     Display_init();
-	MainScreen(1 ,1, 1);
-	ScreenPos = MAIN_SCREEN;
+	Message("IO Testing");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -146,19 +146,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	//HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, Set_RO1);
-
-
-	if(updatedisplay)
-	{
-		Scrn_ctrl();
-		updatedisplay = RESET;
-	}
-	if(Btn_Triggerd != NONE_BTN)
-	{
-		Btn_Ctrl();
-	}
-	OnOffUpdated();
+	  IO_TestingON();
 	  HAL_Delay(100);
   }
   /* USER CODE END 3 */
@@ -265,24 +253,50 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, PC0_OUT_Pin|PC1_OUT_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : OK_BT_Pin DN_BT_Pin UP_BT_Pin */
-  GPIO_InitStruct.Pin = OK_BT_Pin|DN_BT_Pin|UP_BT_Pin;
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, PA1_OUT_Pin|PA4_OUT_Pin|PA15_OUT_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, PB2_OUT_Pin|PB10_OUT_Pin|PB11_OUT_Pin|PB12_OUT_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : PC11_IN_Pin PC12_IN_Pin PC13_IN_Pin */
+  GPIO_InitStruct.Pin = PC11_IN_Pin|PC12_IN_Pin|PC13_IN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : RO2_Pin */
-  GPIO_InitStruct.Pin = RO2_Pin;
+  /*Configure GPIO pins : PC0_OUT_Pin PC1_OUT_Pin */
+  GPIO_InitStruct.Pin = PC0_OUT_Pin|PC1_OUT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(RO2_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PA1_OUT_Pin PA4_OUT_Pin PA15_OUT_Pin */
+  GPIO_InitStruct.Pin = PA1_OUT_Pin|PA4_OUT_Pin|PA15_OUT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PB2_OUT_Pin PB10_OUT_Pin PB11_OUT_Pin PB12_OUT_Pin */
+  GPIO_InitStruct.Pin = PB2_OUT_Pin|PB10_OUT_Pin|PB11_OUT_Pin|PB12_OUT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA12_IN_Pin */
+  GPIO_InitStruct.Pin = PA12_IN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(PA12_IN_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
@@ -293,25 +307,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
-{
-  if(GPIO_Pin == OK_BT_Pin)
-  {
-	  Btn_Triggerd = OK_BTN;
-  }
-  else if(GPIO_Pin == DN_BT_Pin)
-  {
-	  Btn_Triggerd = DN_BTN;
-  }
-  else if(GPIO_Pin == UP_BT_Pin)
-  {
-	  Btn_Triggerd = UP_BTN;
-  }
-  else
-  {
-	  Btn_Triggerd = NONE_BTN;
-  }
-}
 void OK_Button_Update()
 {
 	switch(ScreenPos)
@@ -630,7 +625,7 @@ void UpdatedRelayStatus()
 	}
 	if(RO2_enable)
 	{
-		HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, Set_RO2);
+		//HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, Set_RO2);
 	}
 
 }
@@ -689,7 +684,7 @@ void OnOffUpdated()
 	}
 	else
 		{
-			HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, 0);
+			//HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, 0);
 		}
 }
 /* USER CODE END 4 */

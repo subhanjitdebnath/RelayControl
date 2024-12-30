@@ -229,6 +229,14 @@ void RelaySetting(FlagStatus R1,FlagStatus R2,SSD1306_COLOR_t sel1 , SSD1306_COL
 	SSD1306_UpdateScreen();
 }
 
+void Message(char *msg)
+{
+	SSD1306_Clear();
+	SSD1306_GotoXY (0,20);
+	SSD1306_Puts (msg, &Font_11x18, 1);
+	SSD1306_UpdateScreen();
+	HAL_Delay(200);
+}
 
 
 
