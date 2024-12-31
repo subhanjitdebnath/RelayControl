@@ -193,8 +193,6 @@ void Message1()
 
 void RelaySetting(FlagStatus R1,FlagStatus R2,SSD1306_COLOR_t sel1 , SSD1306_COLOR_t sel2)
 {
-	char S[20];
-	char OffDelay[20];
 
 	SSD1306_Clear();
 	SSD1306_GotoXY (0,0);
