@@ -24,7 +24,16 @@ typedef struct
 	FlagStatus   PA15_OUT_CTRL;
 }IOs;
 
+typedef struct
+{
+	uint8_t PA12_IN_COUNT;
+	uint8_t PC12_IN_COUNT;
+	uint8_t PC13_IN_COUNT;
+	uint8_t PC11_IN_COUNT;
+}IOs_counter;
+
 IOs IO_Testing;
+IOs_counter Counter;
 
 void IO_TestingON(void)
 {
