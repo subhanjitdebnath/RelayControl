@@ -35,6 +35,7 @@
 /* USER CODE BEGIN PD */
 uint32_t Timecount1 = 0,Timecount2 = 0;
 	FlagStatus  Set_RO2 = RESET,Set_RO1 = RESET;
+	FlagStatus  Set_RO2_prev = RESET,Set_RO1_prev = RESET;
 	FlagStatus updatedisplay = RESET;
 	FlagStatus RO1_enable = SET,RO2_enable = SET;
 	int8_t pos = 0;
@@ -648,15 +649,18 @@ void Scrn_ctrl()
 
 void UpdatedRelayStatus()
 {
-	if(RO1_enable)
+	if(Set_RO1_prev != Set_RO1)
 	{
 		HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, Set_RO1);
+		Set_RO1_prev = Set_RO1;
+		updatedisplay = SET;
 	}
-	if(RO2_enable)
+	if(Set_RO2_prev != Set_RO2)
 	{
 		HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, Set_RO2);
+		Set_RO2_prev = Set_RO2;
+		updatedisplay = SET;
 	}
-
 }
 
 void OnOffUpdated()
@@ -669,7 +673,6 @@ void OnOffUpdated()
 				{
 					Timecount1 = 0;
 					Set_RO1 = RESET;
-					UpdatedRelayStatus();
 				}
 			}
 			else
@@ -678,15 +681,14 @@ void OnOffUpdated()
 				{
 					Timecount1 = 0;
 					Set_RO1 = SET;
-					UpdatedRelayStatus();
 				}
 			}
 			Timecount1++;
 		}
 	else
 		{
-			HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, 0);
 			Timecount1 = 0;
+			Set_RO1 = RESET;
 		}
 	if(RO2_enable)
 	{
@@ -696,8 +698,6 @@ void OnOffUpdated()
 			{
 				Timecount2 = 0;
 				Set_RO2 = RESET;
-				UpdatedRelayStatus();
-				updatedisplay = SET;
 			}
 		}
 		else
@@ -706,17 +706,16 @@ void OnOffUpdated()
 			{
 				Timecount2 = 0;
 				Set_RO2 = SET;
-				UpdatedRelayStatus();
-				updatedisplay = SET;
 			}
 		}
 		Timecount2++;
 	}
 	else
 		{
-			HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, 0);
 			Timecount2 = 0;
+			Set_RO2 = RESET;
 		}
+	UpdatedRelayStatus();
 }
 /* USER CODE END 4 */
 
