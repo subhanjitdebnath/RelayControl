@@ -159,6 +159,7 @@ int main(void)
 		Btn_Ctrl();
 	}
 	OnOffUpdated();
+	checkButtonPressed();
 	  HAL_Delay(100);
   }
   /* USER CODE END 3 */
@@ -273,7 +274,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : OK_BT_Pin DN_BT_Pin UP_BT_Pin */
   GPIO_InitStruct.Pin = OK_BT_Pin|DN_BT_Pin|UP_BT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
@@ -290,10 +291,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(RO2_GPIO_Port, &GPIO_InitStruct);
-
-  /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
@@ -318,6 +315,26 @@ void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
   {
 	  Btn_Triggerd = NONE_BTN;
   }
+}
+
+void checkButtonPressed()
+{
+	if(HAL_GPIO_ReadPin(OK_BT_GPIO_Port, OK_BT_Pin) == GPIO_PIN_RESET)
+	{
+		Btn_Triggerd = OK_BTN;
+	}
+	else if(HAL_GPIO_ReadPin(UP_BT_GPIO_Port, UP_BT_Pin) == GPIO_PIN_RESET)
+	{
+		Btn_Triggerd = UP_BTN;
+	}
+	else if(HAL_GPIO_ReadPin(DN_BT_GPIO_Port, DN_BT_Pin) == GPIO_PIN_RESET)
+	{
+		Btn_Triggerd = DN_BTN;
+	}
+	else
+	  {
+		  Btn_Triggerd = NONE_BTN;
+	  }
 }
 void OK_Button_Update()
 {
@@ -668,7 +685,8 @@ void OnOffUpdated()
 		}
 	else
 		{
-			//HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, 0);
+			HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, 0);
+			Timecount1 = 0;
 		}
 	if(RO2_enable)
 	{
@@ -697,6 +715,7 @@ void OnOffUpdated()
 	else
 		{
 			HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, 0);
+			Timecount2 = 0;
 		}
 }
 /* USER CODE END 4 */
