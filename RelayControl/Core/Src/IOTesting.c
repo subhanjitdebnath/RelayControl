@@ -48,25 +48,25 @@ void IO_TestingON(void)
 	IO_Testing.PC11_IN_STATE = HAL_GPIO_ReadPin(PC11_IN_GPIO_Port, PC11_IN_Pin);
 	if(IO_Testing.PC11_IN_STATE != Counter.PC11_TRIG )
 	{
-		IO_Testing.PC11_IN_STATE = Counter.PC11_TRIG ;
+		Counter.PC11_TRIG = IO_Testing.PC11_IN_STATE ;
 		Counter.PC11_IN_COUNT++;
 	}
 	IO_Testing.PC12_IN_STATE = HAL_GPIO_ReadPin(PC12_IN_GPIO_Port, PC12_IN_Pin);
 	if(IO_Testing.PC12_IN_STATE != Counter.PC12_TRIG )
 		{
-			IO_Testing.PC12_IN_STATE = Counter.PC12_TRIG ;
+		Counter.PC12_TRIG = IO_Testing.PC12_IN_STATE ;
 			Counter.PC12_IN_COUNT++;
 		}
 	IO_Testing.PC13_IN_STATE = HAL_GPIO_ReadPin(PC13_IN_GPIO_Port, PC13_IN_Pin);
 	if(IO_Testing.PC13_IN_STATE != Counter.PC13_TRIG )
 		{
-			IO_Testing.PC13_IN_STATE = Counter.PC13_TRIG ;
+		Counter.PC13_TRIG = IO_Testing.PC13_IN_STATE ;
 			Counter.PC13_IN_COUNT++;
 		}
 	IO_Testing.PA12_IN_STATE = HAL_GPIO_ReadPin(PA12_IN_GPIO_Port, PA12_IN_Pin);
 	if(IO_Testing.PA12_IN_STATE != Counter.PA12_TRIG )
 		{
-			IO_Testing.PA12_IN_STATE = Counter.PA12_TRIG ;
+			Counter.PA12_TRIG = IO_Testing.PA12_IN_STATE;
 			Counter.PA12_IN_COUNT++;
 		}
 
