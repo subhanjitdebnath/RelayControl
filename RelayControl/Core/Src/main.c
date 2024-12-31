@@ -269,13 +269,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(RO2_GPIO_Port, RO2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, RO1_Pin|RO2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : OK_BT_Pin DN_BT_Pin UP_BT_Pin */
   GPIO_InitStruct.Pin = OK_BT_Pin|DN_BT_Pin|UP_BT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : RO1_Pin */
+  GPIO_InitStruct.Pin = RO1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(RO1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : RO2_Pin */
   GPIO_InitStruct.Pin = RO2_Pin;
@@ -626,7 +633,7 @@ void UpdatedRelayStatus()
 {
 	if(RO1_enable)
 	{
-		//HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, Set_RO1);
+		HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, Set_RO1);
 	}
 	if(RO2_enable)
 	{
@@ -637,32 +644,32 @@ void UpdatedRelayStatus()
 
 void OnOffUpdated()
 {
-//	if(RO1_enable)
-//		{
-//			if(Set_RO1)
-//			{
-//				if(Timecount1 >=  (TIMEFACTOR * On_Time1) )
-//				{
-//					Timecount1 = 0;
-//					Set_RO1 = RESET;
-//					UpdatedRelayStatus();
-//				}
-//			}
-//			else
-//			{
-//				if(Timecount1 >=  (TIMEFACTOR * Off_Time1) )
-//				{
-//					Timecount1 = 0;
-//					Set_RO1 = SET;
-//					UpdatedRelayStatus();
-//				}
-//			}
-//			Timecount1++;
-//		}
-//	else
-//		{
-//			//HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, 0);
-//		}
+	if(RO1_enable)
+		{
+			if(Set_RO1)
+			{
+				if(Timecount1 >=  (TIMEFACTOR * On_Time1) )
+				{
+					Timecount1 = 0;
+					Set_RO1 = RESET;
+					UpdatedRelayStatus();
+				}
+			}
+			else
+			{
+				if(Timecount1 >=  (TIMEFACTOR * Off_Time1) )
+				{
+					Timecount1 = 0;
+					Set_RO1 = SET;
+					UpdatedRelayStatus();
+				}
+			}
+			Timecount1++;
+		}
+	else
+		{
+			//HAL_GPIO_WritePin(RO1_GPIO_Port, RO1_Pin, 0);
+		}
 	if(RO2_enable)
 	{
 		if(Set_RO2)
